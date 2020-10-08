@@ -1,7 +1,5 @@
 ![Instagram Icon](https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png)
 
-                                                                                Version: Release v4.0
-
 ## Github project URL
 https://github.com/brandongallagher1999/Assignment-1-ASP
 
