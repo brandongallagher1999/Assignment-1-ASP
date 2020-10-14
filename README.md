@@ -24,7 +24,9 @@ https://github.com/brandongallagher1999/Assignment-1-ASP
 ## React
 - https://reactjs.org/
 
-
+# JSON DATA
+Used disease.sh for its corona virus data for canada
+https://disease.sh/
 
 # How to run
 ## Docker
