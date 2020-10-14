@@ -3,6 +3,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using test123.Models;
 
@@ -10,7 +11,6 @@ namespace test123.Services
 {
     public class UserInfoService
     {
-        private IConfiguration config;
         //private MongoClient ClientConnection;
         //private var Database;
         private readonly IMongoCollection<User_Info> _user_info;
@@ -18,9 +18,27 @@ namespace test123.Services
         {
             try
             {
-                
-                var ClientConnection = new MongoClient("mongodb://localhost:27017");
-                var Database = ClientConnection.GetDatabase("project");
+
+                string host = "cryptoguys.mongo.cosmos.azure.com";
+                string dbName = "project";
+                string collectionName = "user_info";
+                string password = "Ogxgq08WJk8MerckKmWDL7531KWXQaLmkBOr0RZlzGHfSJDrj1aNft7d5qRdfNlwkaTHCyi4pS0kSVYPQnXc8w==";
+                string username = "cryptoguys";
+                MongoClientSettings settings = new MongoClientSettings();
+                settings.Server = new MongoServerAddress(host, 10255);
+                settings.UseTls = true;
+                settings.SslSettings = new SslSettings();
+                settings.SslSettings.EnabledSslProtocols = SslProtocols.Tls12;
+                PasswordEvidence evidence = new PasswordEvidence(password);
+                MongoIdentity identity = new MongoInternalIdentity(dbName, username);
+                settings.Credential = new MongoCredential("SCRAM-SHA-1", identity, evidence);
+
+
+                var mongoClient = new MongoClient(settings);
+
+
+                //var ClientConnection = new MongoClient("mongodb://localhost:27017");
+                var Database = mongoClient.GetDatabase("project");
 
                 _user_info = Database.GetCollection<User_Info>("user_info");
             }

@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Security.Cryptography.Xml;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using RestSharp;
 using test123.Models;
 using test123.Services;
 
@@ -22,7 +28,27 @@ namespace test123.Controllers
         }
         
 
+        [HttpGet]
+        public ContentResult Index()
+        {
+            return base.Content("<h1>Brandon Gallagher 200454237</h1>", "text/html");
+        }
 
+        [HttpGet("json")]
+        public ActionResult JsonData()
+        {
+            // /v3/covid-19/countries/canada
+            const string url = "https://disease.sh";
+            RestClient client = new RestClient(url);
+
+            var request = new RestRequest("v3/covid-19/countries/canada", Method.GET);
+            request.AddHeader("Accept", "application/json");
+
+            var queryResult = client.Execute(request).Content;
+            //string json = JsonConvert.SerializeObject(queryResult);
+            return Content(queryResult);
+
+        }
 
 
         [HttpGet("{username}")]
